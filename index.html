@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+    *{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
+body{
+  background-image:url("http://2.bp.blogspot.com/-jjKWAR0KQV4/VBpMTtSxwQI/AAAAAAAACGI/Kc_rA_dVAuA/s1600/%E6%A1%8C%E5%B8%83-00047.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1{
+  color:white;
+  font-size:26px;
+  text-align:center;
+  margin-bottom:20px;
+}
+
+h4{
+/*   color:white; */
+  text-align:center;
+  font-weight:400;
+}
+
+.span{
+  color:white;
+  font-size:15px;
+  list-style: none;
+  text-align:center;
+}
+
+ul{
+  display: inline-block;
+  list-style:none;
+  line-height:26px;
+}
+
+.section1{
+  width: 500px;
+  padding:20px;
+  border-radius:5px;
+  background-color: rgba(0,0,0,0.3);
+  box-shadow:0px 0px 30px rgba(0,0,0,0.5);
+  margin:0 auto;
+  margin-top:50px;
+}
+
+.container{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:10px;
+}
+
+    </style>
+</head>
+<body>
+    <div class=section1>
+        <h1> 土星-泰坦農場</h1>
+        <div class="container">
+            <input type="text" class="textClass" placeholder="請寫上想要做的事情">
+            <input type="button" value="加入待辦" class="btnadd">
+            <!-- <input type="button" value="呼叫" class="btnCall"> -->
+        </div>
+        <div class="span">
+            <ul class="list"></ul>
+        </div>
+    
+    </div>
+    
+    <h4>想要刪除的話，可在想要的文字上點選即可</h4>
+
+    <script>
+
+        let data = JSON.parse(localStorage.getItem("Items")) || []
+        let btnadd = document.querySelector(".btnadd")
+        let list = document.querySelector(".list")
+
+
+        list.addEventListener("click", removeList)
+        btnadd.addEventListener("click", addList)
+        updataList(data)
+
+
+        function addList(e) {
+            e.preventDefault()
+            let str = document.querySelector(".textClass").value
+            let todolist = { "content": str }
+            data.push(todolist)
+            updataList(data)
+            localStorage.setItem('Items', JSON.stringify(data))
+        }
+
+
+        function updataList(items) {
+            let str = ' '
+            let len = items.length
+            for (let i = 0; i < len; i++) {
+                str += '<li data-num="' + i + '">' + data[i].content + '</li>'
+            }
+            list.innerHTML = str
+        }
+        updataList(data)
+
+
+        function removeList(e) {
+            e.preventDefault()
+            let nodeName = e.target.nodeName
+            if (nodeName !== "LI") { return }
+            let num = e.target.dataset.num
+            data.splice(num, 1)
+            localStorage.setItem('Items', JSON.stringify(data))
+            updataList(data)
+
+        }
+
+
+// let btnCall = document.querySelector(".btnCall")
+
+// btnCall.addEventListener("click",function(){
+//   let str =localStorage.getItem("items")
+//   alert(str)
+//   console.log(typeof(str))
+// })
+
+    </script>
+
+</body>
+</html>
